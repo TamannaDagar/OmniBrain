@@ -52,10 +52,14 @@ We used the model:
 all-MiniLM-L6-v2
 
 This model converts each sentence into a **384-dimensional vector** while preserving its semantic meaning.
-all- ttrained on all 1-billion text
-MiniLM- smaller version of LLM
-L6- 6 layers of  transformers(brain of the model)
-v2- 2nd latest version 
+all- trained on all 1-billion text.
+
+
+MiniLM- smaller version of LLM.
+
+L6- 6 layers of  transformers(brain of the model).
+
+v2- 2nd latest version .
 
 ---
 
