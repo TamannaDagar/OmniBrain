@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+
+app/uploads/*
+!app/uploads/.gitkeep
+
+app/logs/*
+!app/logs/.gitkeep
+
+app/smoke_tmp/
+
+.env
+.venv/

@@ -1,0 +1,2 @@
+"""OmniBrain FastAPI backend package."""
+
