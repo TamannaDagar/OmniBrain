@@ -11,7 +11,7 @@ try:
     with open(file_path, "r", encoding='utf-8') as file:  #eads the file safely
         document= file.read()      # read the entire document
 
-        print("\n Document Loaded successfully!")
+        print("\n Document Loaded successfully!") # load document converts into python string then chunks
 
 except FileNotFoundError:
     print(f"\n Document with file_path {file_path} not fond")
