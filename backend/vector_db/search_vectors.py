@@ -12,7 +12,10 @@ client= QdrantClient(
 model= SentenceTransformer("all-MiniLM-L6-v2")
 
 # search query
-query= "How can I perform Semantic Search?"
+#query= "How can I perform Semantic Search?"
+
+# allow user too search Query
+query= input("\n Enter your query:")
 
 print(f"Search Query: {query}")
 
