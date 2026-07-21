@@ -39,7 +39,7 @@ for idx, (text, embedding) in enumerate(zip(texts, embeddings)):
     points.append(
         PointStruct(
             id= idx+1,
-            vector= embedding.tolist(),
+            vector= embedding.tolist(), # convert generated embedding (numpy array) to the python list for qdrant 
             payload={
                 'text': text
             }
@@ -48,7 +48,7 @@ for idx, (text, embedding) in enumerate(zip(texts, embeddings)):
 
 
 # load in connection
-client.upsert(
+client.upsert(  # insert or update 
     collection_name='omnibrain_documents',
     points=points
 )
