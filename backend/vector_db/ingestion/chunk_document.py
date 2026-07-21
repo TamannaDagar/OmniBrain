@@ -1,5 +1,5 @@
 # import the libraries
-from pathlib import Path
+'''from pathlib import Path
 
 print("\n OmniBrain: Document Chunking..")
 
@@ -20,6 +20,32 @@ print(f"Total Chunks: {len(chunks)}") #one sentence per chunk
 
 for i, chunk in enumerate(chunks, start=1):
     print(f"Chunk: {i}")
-    print(chunk)
+    print(chunk)'''
 
 
+
+
+# replacing for pipeline for reading the text file
+
+## importing  the load_document file
+from pathlib import Path
+import sys
+
+# Add backend/vector_db to Python path
+BASE_DIR = Path(__file__).resolve().parent
+sys.path.append(str(BASE_DIR.parent))
+
+
+from ingestion.load_document import load_document
+
+# start chunking
+def chunk_document (filename):
+    document= load_document(filename)
+
+
+    chunks= [
+        line.strip()
+        for line in document.split("\n")
+        if line.strip()
+    ]
+    return chunks  # again no print statement
