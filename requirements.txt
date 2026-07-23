@@ -31,6 +31,7 @@ protobuf==7.35.1
 pydantic==2.13.4
 pydantic_core==2.46.4
 Pygments==2.20.0
+pymupdf==1.28.0
 pywin32==312
 PyYAML==6.0.3
 qdrant-client==1.18.0
