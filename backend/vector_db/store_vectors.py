@@ -1,6 +1,7 @@
 # Import the libraries
 from pathlib import Path
 import sys
+import uuid # for chunk overlap
 
 
 from qdrant_client import QdrantClient
@@ -70,7 +71,8 @@ for idx, (chunk, embedding) in enumerate(zip(chunks, embeddings), start=1):
 
     
         point= PointStruct(
-            id= idx,
+            # id= idx - overlap the sequence
+            id= str(uuid.uuid4()), # always unique
             vector= embedding.tolist(), # convert generated embedding (numpy array) to the python list for qdrant 
             payload={
                 'text': chunk,

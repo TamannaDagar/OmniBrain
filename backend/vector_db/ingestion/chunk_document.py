@@ -97,7 +97,7 @@ def get_document(filename):
     return chunks'''
 
 ## replacing the chunk_document because of fixed-size chunking strategy
-print("Starting fixed size Chunking strategy")
+'''print("Starting fixed size Chunking strategy")
 
 def chunk_document(filename, chunk_size=300):
     """
@@ -115,7 +115,45 @@ def chunk_document(filename, chunk_size=300):
         chunk= document[i:i + chunk_size]  # Extracts a slice of the document
         chunks.append(chunk)
 
+    return chunks'''
+
+# again replacing for chunking overlap
+def chunk_document(filename, chunk_size= 300, overlap=50): #The next chunk starts 250 characters later, so the last 50 characters are shared
+    """
+    Split document into fixed-size chunks with overlap.
+    """
+     
+    document= get_document(filename)
+    print(f"Lenght of Document: {len(document)} ")
+    print(document[:200])
+
+
+    # after cleaning
+
+    # removing white space
+    document= " ".join(document.split())
+    print(f"Lenght of Document After Cleaning: {len(document)} ")
+    print(document[:200])
+
+    chunks=[]
+
+    step= chunk_size- overlap
+
+    print(f"Chunk_size: {chunk_size}")
+    print(f'Overlap: {overlap}')
+    print(f'step: {chunk_size- overlap}')
+
+    for i in range(0, len(document), step):
+        chunk= document[i:i + chunk_size]
+
+        if chunk:
+            chunks.append(chunk)
+
+        if i+ chunk_size >= len(document):
+            break
+
     return chunks
+
 
 
 if __name__== "__main__":
@@ -123,10 +161,12 @@ if __name__== "__main__":
 
 
     # give any file name text or pdf based on your testing
-    #filename= ('sample_document.txt') # 2 chunks when fixed chunking
+    #filename= ('sample_document.txt') # 2 chunks when fixed chunking without overlap
+    # after overlap 2 chunks
 
     #now test with pdf
-    filename= ('sample.pdf') # 21 chunks
+    filename= ('sample.pdf') # 21 chunks without overlap
+    # 25 after overlap
 
     chunks=chunk_document(filename)
 
