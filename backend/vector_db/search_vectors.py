@@ -34,7 +34,7 @@ print("\n Top Results \n")
 for i, result in enumerate(results, start=1):
     print(f"Result: {i}")
     print(f'Similarity Score : {result.score:.4f}')
-    print(f'Source File: {result.payload['souce_file']}')
+    print(f'Source File: {result.payload['source_file']}')
     print(f' Chunk ID: {result.payload['chunk_id']}')
 
     print('\n text /n')
