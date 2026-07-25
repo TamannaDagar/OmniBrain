@@ -18,14 +18,14 @@ def load_pdf(filename):
     document.close()
 
     return text
-
+'''
 if __name__== "__main__":
 
     pdf_text= load_pdf('sample.pdf')
 
 
     print("Pdf Loaded successfully!")
-    print(pdf_text[:1000])  # prints only first 1000 characters
+    print(pdf_text[:1000])  # prints only first 1000 characters'''
 
 
 
