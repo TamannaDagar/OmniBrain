@@ -24,7 +24,16 @@ COLLECTION_NAME= 'omnibrain_documents'
 
 # change the file  name whenever you want
 #FILENAME= 'sample_document.txt'
-FILENAME= 'sample.pdf'
+# FILENAME= 'sample.pdf'
+
+# for multiple files at a time replace filename
+
+DATA_FOLDER= BASE_DIR/'data'
+
+SUPPORTED_EXTENSIONS= [".txt", ".pdf"]
+
+print("\n OmniBrain: Multiple Document Indexing")
+
 
 # connect to the Qdrant
 print("OmniBrain : Vector Indexing Pipeline")
@@ -36,69 +45,75 @@ client= QdrantClient(
 print("Connected Successfully!")
 
 
-# Load document chunks
-chunks= chunk_document(FILENAME)
+# find Documents
+files= [
+    file
+    for file in DATA_FOLDER.iterdir()
+    if file.suffix.lower() in SUPPORTED_EXTENSIONS]
 
-print(f"Document Loaded: {FILENAME}")
+print(f"Found {len(files)} supported documents")
 
+
+# Process each doucment
+total_documents=0
+total_chunks=0
+total_vectors=0
 
 # Load the embedding model
 model= SentenceTransformer("all-MiniLM-L6-v2")
 print(f"Model Loaded: {model}")
 
-#Sample text
-'''texts=[
-    "Artificial Intelligence is transforming industries.",
-    "Machine Learning helps computers learn from data.",
-    "Vector databases enable semantic search.",
-    "Python is widely used for AI development.",
-    "Qdrant stores embeddings for fast retrieval."
-]'''
 
-print("\n Embeddings Generating..")
-embeddings= model.encode(chunks)
+for file in files:
 
-print(f"Generated {len(embeddings)} embeddings")
+    filename = file.name
 
+    print(f"\nProcessing Document: {filename}")
 
-# create qdrant points
-print("\n Uploading vectors to the Qdrant...")
+    # Load document
+    chunks = chunk_document(filename)
 
-points=[]
+    print(f"Document Loaded: {filename}")
 
+    print("\nGenerating Embeddings...")
+    embeddings = model.encode(chunks)
 
-for idx, (chunk, embedding) in enumerate(zip(chunks, embeddings), start=1):
+    print(f"Generated {len(embeddings)} embeddings")
 
-    
-        point= PointStruct(
-            # id= idx - overlap the sequence
-            id= str(uuid.uuid4()), # always unique
-            vector= embedding.tolist(), # convert generated embedding (numpy array) to the python list for qdrant 
+    points = []
+
+    for idx, (chunk, embedding) in enumerate(zip(chunks, embeddings), start=1):
+
+        point = PointStruct(
+            id=str(uuid.uuid4()),
+            vector=embedding.tolist(),
             payload={
-                'text': chunk,
-                'source_file': FILENAME,
-                'chunk_id': idx
-
+                "text": chunk,
+                "source_file": filename,
+                "chunk_id": idx
             }
         )
+
         points.append(point)
-        print(f"Prepared {len(points)} vectors")
+
+    print(f"Prepared {len(points)} vectors")
+
+    client.upsert(
+        collection_name=COLLECTION_NAME,
+        points=points
+    )
+
+    print("Successfully stored vectors!")
+
+    total_documents += 1
+    total_chunks += len(chunks)
+    total_vectors += len(points)
 
 
-# load in connection
-print("\nUploading vectors to Qdrant...")
-client.upsert(  # insert or update 
-    collection_name=COLLECTION_NAME,
-    points=points
-)
-
-print(f"\n Successfully stored vectors!")
-
-#Summary
+# Final summary
 print("Indexing Completed Successfully")
 
-
-print(f"Collection     : {COLLECTION_NAME}")
-print(f"Source File    : {FILENAME}")
-print(f"Total Chunks   : {len(chunks)}")
-print(f"Total Vectors  : {len(points)}")
+print(f"Source File: {filename}")
+print(f"Documents Indexed : {total_documents}")
+print(f"Total Chunks      : {total_chunks}")
+print(f"Total Vectors     : {total_vectors}")

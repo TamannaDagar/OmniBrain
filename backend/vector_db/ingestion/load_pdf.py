@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR= Path(__file__).resolve().parent
 
 def load_pdf(filename):
-    pdf_path= BASE_DIR.parent /"data" / "pdfs" / filename
+    pdf_path= BASE_DIR.parent /"data" / filename
 
     document= fitz.open(pdf_path)
 
