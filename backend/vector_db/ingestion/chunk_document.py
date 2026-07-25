@@ -81,7 +81,7 @@ def get_document(filename):
 
 
 
-def chunk_document(filename):
+'''def chunk_document(filename):
     """
     Load the document and split it into chunks.
     Currently, one line = one chunk.
@@ -94,17 +94,39 @@ def chunk_document(filename):
         if line.strip()
     ]
 
+    return chunks'''
+
+## replacing the chunk_document because of fixed-size chunking strategy
+print("Starting fixed size Chunking strategy")
+
+def chunk_document(filename, chunk_size=300):
+    """
+    Split a document into fixed-size character chunks.
+    """
+    document= get_document(filename)
+
+    #remove extra whitespace
+    document= " ".join (document.split())
+  
+
+    chunks=[]
+
+    for i in range(0, len(document), chunk_size):
+        chunk= document[i:i + chunk_size]  # Extracts a slice of the document
+        chunks.append(chunk)
+
     return chunks
+
 
 if __name__== "__main__":
     print("OmniBrain: Document Chunking..")
 
 
     # give any file name text or pdf based on your testing
-    #filename= ('sample_document.txt')
+    #filename= ('sample_document.txt') # 2 chunks when fixed chunking
 
     #now test with pdf
-    filename= ('sample.pdf')
+    filename= ('sample.pdf') # 21 chunks
 
     chunks=chunk_document(filename)
 
