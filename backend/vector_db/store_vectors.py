@@ -74,7 +74,7 @@ for idx, (chunk, embedding) in enumerate(zip(chunks, embeddings), start=1):
             vector= embedding.tolist(), # convert generated embedding (numpy array) to the python list for qdrant 
             payload={
                 'text': chunk,
-                'souce_file': FILENAME,
+                'source_file': FILENAME,
                 'chunk_id': idx
 
             }
