@@ -26,7 +26,8 @@ query_vector= model.encode(query).tolist()
 results= client.query_points(   # start comapring with every vector using cosine
     collection_name= 'omnibrain_documents',
     query= query_vector,
-    limit =3
+    limit =3, #before 1 for top K or cosinie
+    with_payload= True
 ).points
 
 print("\n Top Results \n")
